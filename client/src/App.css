@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* -- Reset & Base ----------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0b0f1a;
+  --surface: #111827;
+  --surface-2: #1a2235;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(99,210,190,0.35);
+  --accent: #3ecfb2;
+  --accent-dim: rgba(62,207,178,0.12);
+  --accent-glow: rgba(62,207,178,0.25);
+  --text: #f0f4f8;
+  --text-muted: #8899aa;
+  --text-dim: #4a5568;
+  --error: #fc8181;
+  --error-bg: rgba(252,129,129,0.08);
+  --success: #68d391;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 24px 64px rgba(0,0,0,0.5);
+  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* -- Page Layout ------------------------------------------------------------ */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* -- Background Blobs ------------------------------------------------------- */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.blob-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(62,207,178,0.08) 0%, transparent 70%);
+  top: -120px; left: -120px;
+}
+.blob-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+  bottom: -80px; right: -80px;
+}
+
+/* -- Card ------------------------------------------------------------------- */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* -- Card Header ------------------------------------------------------------ */
+.card-header {
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  background: linear-gradient(180deg, rgba(62,207,178,0.04) 0%, transparent 100%);
+}
+.logo-mark {
+  width: 48px; height: 48px;
+  background: var(--accent);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  font-weight: 700; font-size: 1.2rem;
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.card-header h1 {
+  font-size: 1.4rem; font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.subtitle {
+  font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* -- Steps ------------------------------------------------------------------ */
+.steps {
+  display: flex; align-items: center;
+  padding: 1.25rem 2rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.step {
+  display: flex; align-items: center; gap: 0.4rem;
+  flex-shrink: 0;
+}
+.step-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--text-dim);
+  transition: var(--transition);
+}
+.step-label {
+  font-size: 0.78rem; color: var(--text-dim);
+  font-weight: 500; transition: var(--transition);
+}
+.step.active .step-num {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.step.active .step-label { color: var(--text-muted); }
+.step.current .step-num {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.step.current .step-label { color: var(--text); }
+.step-line {
+  flex: 1; height: 1px;
+  background: var(--text-dim);
+  margin: 0 0.5rem;
+  transition: var(--transition);
+}
+.step-line.active { background: var(--accent); opacity: 0.5; }
+
+/* -- Form ------------------------------------------------------------------- */
+.form { padding: 1.75rem 2rem; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field {
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.field:nth-child(1),
+.field:nth-child(5),
+.field:nth-child(6) {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.75rem; font-weight: 500;
+  color: var(--text-muted); letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.85rem;
+  outline: none;
+  transition: var(--transition);
+}
+input::placeholder { color: var(--text-dim); }
+input:hover { border-color: rgba(255,255,255,0.12); }
+input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+input.input-error { border-color: var(--error); box-shadow: 0 0 0 3px var(--error-bg); }
+
+.field-error {
+  font-size: 0.72rem; color: var(--error);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Amount field */
+.amount-wrap {
+  position: relative; display: flex; align-items: center;
+}
+.currency-prefix {
+  position: absolute; left: 0.85rem;
+  color: var(--accent); font-weight: 600; font-size: 0.9rem;
+  pointer-events: none;
+}
+.amount-input { padding-left: 1.75rem; }
+
+/* -- Buttons ---------------------------------------------------------------- */
+.btn-primary {
+  width: 100%; margin-top: 1.5rem;
+  padding: 0.8rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none; border-radius: var(--radius-sm);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.9rem; font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #50dfc2;
+  box-shadow: 0 0 24px var(--accent-glow);
+  transform: translateY(-1px);
+}
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  padding: 0.8rem 1.25rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem; font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+.btn-ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* -- Confirmation Panel ----------------------------------------------------- */
+.confirm-panel { padding: 1.75rem 2rem; }
+
+.confirm-amount {
+  font-size: 2.5rem; font-weight: 700;
+  text-align: center;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.confirm-rows {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+.confirm-row {
+  display: flex; align-items: center;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.confirm-row:last-child { border-bottom: none; }
+.cr-label {
+  font-size: 0.72rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  width: 100px; flex-shrink: 0;
+}
+.cr-value {
+  font-size: 0.88rem; color: var(--text);
+  font-weight: 500; word-break: break-all;
+}
+
+.confirm-note {
+  font-size: 0.78rem; color: var(--text-muted);
+  text-align: center; line-height: 1.6;
+  background: var(--accent-dim);
+  border: 1px solid rgba(62,207,178,0.15);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.error-banner {
+  background: var(--error-bg);
+  border: 1px solid rgba(252,129,129,0.2);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  font-size: 0.82rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.confirm-actions {
+  display: flex; gap: 0.75rem;
+}
+.confirm-actions .btn-primary { margin-top: 0; flex: 1; }
+
+/* -- Redirecting ------------------------------------------------------------ */
+.redirecting {
+  padding: 3rem 2rem;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1rem;
+  text-align: center;
+}
+.redirect-spinner {
+  width: 48px; height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.redirecting p { font-size: 1rem; font-weight: 500; }
+.redirecting span { font-size: 0.78rem; color: var(--text-muted); }
+
+/* -- Spinner (button) ------------------------------------------------------- */
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(11,15,26,0.3);
+  border-top-color: var(--bg);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* -- Footer ----------------------------------------------------------------- */
+.card-footer {
+  padding: 0.85rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-size: 0.72rem; color: var(--text-dim);
+  background: var(--surface-2);
+}
+
+/* -- Responsive ------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .card { border-radius: 16px; }
+  .card-header, .form, .confirm-panel { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .steps { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .field:nth-child(n) { grid-column: auto; }
+  .confirm-amount { font-size: 2rem; }
+}
